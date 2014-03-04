@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 using vt14_2_2_aventyrliga_kontakter.Model.DAL;
@@ -28,6 +29,11 @@ namespace vt14_2_2_aventyrliga_kontakter.Model {
         }
 
         public static void SaveContact(Contact contact) {
+
+            if (!contact.Validate()) {
+                throw new ValidationException();
+            }
+
             if (contact.ContactID == 0) {
                 ContactDAL.InsertContact(contact);
             } else {

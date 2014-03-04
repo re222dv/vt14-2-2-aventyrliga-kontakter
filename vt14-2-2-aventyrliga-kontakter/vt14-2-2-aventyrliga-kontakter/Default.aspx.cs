@@ -9,7 +9,14 @@ using vt14_2_2_aventyrliga_kontakter.Model;
 namespace vt14_2_2_aventyrliga_kontakter {
     public partial class Default : System.Web.UI.Page {
         protected void Page_Load(object sender, EventArgs e) {
-            DataPager.SetPageProperties(1, 20, false);
+
+            var message = Session["message"] as string;
+
+            if (message != null) {
+                Label.Text = message;
+                Session.Remove("message");
+                Correct.Visible = true;
+            }
         }
 
         public IEnumerable<Contact> ListView_GetData(int maximumRows, int startRowIndex, out int totalRowCount) {
@@ -28,8 +35,8 @@ namespace vt14_2_2_aventyrliga_kontakter {
             if (ModelState.IsValid) {
                 try {
                     Service.SaveContact(contact);
-                    Label.Text = "Kontakten lades till";
-                    Correct.Visible = true;
+                    Session["message"] = "Kontakten lades till";
+                    Response.Redirect("~/Default.aspx");
                 } catch {
                     ModelState.AddModelError(String.Empty, "Ett fel inträffade när kontakten skapades");
                 }
@@ -39,8 +46,8 @@ namespace vt14_2_2_aventyrliga_kontakter {
         public void ListView_DeleteItem(int ContactID) {
             try {
                 Service.DeleteContact(ContactID);
-                Label.Text = "Kontakten togs bort";
-                Correct.Visible = true;
+                Session["message"] = "Kontakten togs bort";
+                Response.Redirect("~/Default.aspx");
             } catch {
                 ModelState.AddModelError(String.Empty, String.Format("Ett fel inträffade när kontakten med id {0} togs bort", ContactID));
             }
@@ -56,7 +63,8 @@ namespace vt14_2_2_aventyrliga_kontakter {
             if (ModelState.IsValid) {
                 try {
                     Service.SaveContact(contact);
-                    Correct.Visible = true;
+                    Session["message"] = "Kontakten sparades korrekt";
+                    Response.Redirect("~/Default.aspx");
                 } catch {
                     ModelState.AddModelError(String.Empty, String.Format("Ett fel inträffade när kontakten med id {0} uppdaterades", ContactID));
                 }

@@ -14,11 +14,11 @@
         </header>
 
         <asp:Panel ID="Correct" runat="server" Visible="false">
-            <asp:Label ID="Label" runat="server" Text="Label">Kontakten sparades korrekt</asp:Label>
+            <asp:Label ID="Label" runat="server" Text="Label"></asp:Label>
         </asp:Panel>
 
         <asp:ValidationSummary ID="ValidationSummary" runat="server" CssClass="error" />
-        <asp:ValidationSummary runat="server" CssClass="error" ValidationGroup="edit" />
+        <asp:ValidationSummary runat="server" CssClass="error" ValidationGroup="edit" ShowModelStateErrors="False" />
         
         <asp:ListView ID="ListView" runat="server"
             ItemType="vt14_2_2_aventyrliga_kontakter.Model.Contact"
